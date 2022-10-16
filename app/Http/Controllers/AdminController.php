@@ -3,11 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Response;
 use App\Models\AuthUser;
 use Illuminate\Support\Facades\Mail;
+use App\Exports\UsersExport;
 use Illuminate\Support\Facades\Storage;
 use League\CommonMark\Extension\CommonMark\Node\Inline\Image;
 use Barryvdh\DomPDF\Facade\PDF;
+use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpWord\TemplateProcessor;
+use PhpOffice\PhpWord\PhpWord;
 
 class AdminController extends Controller
 {
@@ -19,7 +24,7 @@ class AdminController extends Controller
 
     public function viewAllUsers()
     {
-        $users = AuthUser::all();
+        $users = AuthUser::where('is_admin', 0)->get();
         $warning = '';
         return view('admin.allUsers')->with('users', $users)->with('warning', $warning);
     }
@@ -108,5 +113,21 @@ class AdminController extends Controller
             $message->from('superadmin@admin.com', session('user'));
         });
         return redirect()->back();
+    }
+    public function export()
+    {
+        return Excel::download(new UsersExport, 'users.csv');
+        return redirect()->back();
+    }
+
+    public function getWord()
+    {
+        $users = AuthUser::where('is_admin', 0)->get();
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $section->addText(view('admin/allUsers')->with('users', $users));
+
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter->save('users.docx');
     }
 }

@@ -5,7 +5,11 @@
         <table class="table table-bordered" style="text-align:center; border: 2px solid #000">
             <tr>
                 <h1 style="text-align:center; border: 2px solid #000">Users</h1>
-                <p>{{$warning}}</p>
+                
+                <button class="btn btn-success"><a style="font-size:20px; text-decoration: none" href="/getExcel">Get Excel</a></button>
+                <br>
+                <button class="btn btn-success"><a style="font-size:20px; text-decoration: none" href="/getWord">Get Word</a></button>
+                <br>
             </tr>
             <tr>
                 <td>Name</td>
@@ -29,5 +33,6 @@
             </tr>
             @endforeach
         </table>
+
     </div>
 </div>

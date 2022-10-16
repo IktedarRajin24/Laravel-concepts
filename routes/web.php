@@ -35,3 +35,5 @@ Route::get('/allUsers', [AdminController::class, 'viewAllUsers'])->name('admin.a
 Route::get('/downloadCertificate/{id}/{name}', [AdminController::class, 'downloadCertificate'])->name('admin.downloadCertificate')->middleware('IsAdmin');
 Route::get('/sendCertificate/{id}/{name}', [AdminController::class, 'sendCertificate'])->name('admin.sendCertificate')->middleware('IsAdmin');
 Route::get('/viewPDF/{id}/{name}', [AdminController::class, 'viewPDF'])->name('admin.viewPDF')->middleware('IsAdmin');
+Route::get('/getExcel', [AdminController::class, 'export'])->name('admin.getExcel')->middleware('IsAdmin');
+Route::get('/getWord', [AdminController::class, 'getWord'])->name('admin.getWord')->middleware('IsAdmin');
