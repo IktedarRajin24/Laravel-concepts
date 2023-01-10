@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <div class="createPart">
+            <legend>Signup</legend>
+            <div>
+                <form
+                    method="POST"
+                    action="http://127.0.0.1:8000/api/users/register"
+                >
+                    <div class="mb-6">
+                        <label for="formGroupExampleInput" class="form-label">
+                            Name :</label
+                        >
+                        <input
+                            type="text"
+                            name="name"
+                            class="form-control"
+                            id="formGroupExampleInput"
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label
+                            for="formGroupExampleInput"
+                            class="form-label"
+                            style="margin-top: 20px"
+                            >email :</label
+                        >
+                        <input
+                            type="text"
+                            name="email"
+                            class="form-control"
+                            id="formGroupExampleInput"
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label
+                            for="staticGender"
+                            class="col-sm-2 col-form-label"
+                            style="color: white"
+                            >Gender</label
+                        >
+                        <div style="width: 75%">
+                            <input
+                                type="radio"
+                                id="male"
+                                name="gender"
+                                value="male"
+                            />
+                            <label for="male">Male</label>
+                            <input
+                                type="radio"
+                                id="css"
+                                name="gender"
+                                value="female"
+                            />
+                            <label for="female">Female</label>
+                            <input
+                                type="radio"
+                                id="others"
+                                name="gender"
+                                value="others"
+                            />
+                            <label for="others">Others</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label
+                            for="formGroupExampleInput"
+                            class="form-label"
+                            style="margin-top: 20px"
+                            >phone :</label
+                        >
+                        <input
+                            type="text"
+                            name="phone"
+                            class="form-control"
+                            id="formGroupExampleInput"
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label
+                            for="staticImage"
+                            class="col-sm-2 col-form-label"
+                            style="color: white"
+                            >Image</label
+                        >
+                        <div class="col-sm-10">
+                            <input
+                                type="file"
+                                name="img"
+                                id="img"
+                                class="form-control"
+                                style="width: 75%"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label
+                            for="formGroupExampleInput"
+                            class="form-label"
+                            style="margin-top: 20px"
+                            >password :</label
+                        >
+                        <input
+                            type="text"
+                            name="password"
+                            class="form-control"
+                            id="formGroupExampleInput"
+                        />
+                    </div>
+
+                    <input
+                        type="submit"
+                        name="submit"
+                        value="signup"
+                        class="btn btn-primary login_button"
+                    />
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
