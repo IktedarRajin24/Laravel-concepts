@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\AuthUser;
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
+use Illuminate\Support\Carbon;
 
 class UserController extends Controller
 {
@@ -27,6 +29,84 @@ class UserController extends Controller
         $users = AuthUser::where('email', $request->email)
             ->where('password', $request->password)
             ->first();
+
+        
+        /*$client = new Client();
+        $apiKey = 'pat-na1-c88729b9-8866-44a5-b440-d6dfe69cc85d';
+        $endpoint = 'https://api.hubapi.com/contacts/v1/contact/email/'.$request->email.'/profile';
+
+        //dd($endpoint);
+        $response = $client->get($endpoint,[
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $apiKey
+            ],
+        ]);
+
+        //dd(json_decode($response->getBody()));
+        $visitorId = json_decode($response->getBody())->vid;
+        $email = $request->email;
+
+        //dd($visitorId);
+        //dd($email);
+
+        $endpoint = 'https://api.hubapi.com/contacts/v1/contact/vid/'.$visitorId;
+
+        //dd($endpoint);
+        $mytime = Carbon::now();
+        $data = [
+            'properties' => [
+                [
+                    'property' => 'recent_login',
+                    'value' => $mytime
+                ]
+            ]
+        ];
+        //dd(json_encode($data));
+        $response = $client->put($endpoint, [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $apiKey
+            ],
+            'json' => $data
+        ]);
+        
+        return $response->getStatusCode();*/
+
+        $client = new Client();
+        $endpoint = 'https://api.hubapi.com/contacts/v1/contact/email/'.$request->email.'/profile';
+        $apiKey = 'pat-na1-c88729b9-8866-44a5-b440-d6dfe69cc85d';
+        $response = $client->get($endpoint,[
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $apiKey
+            ],
+        ]);
+
+        //dd(json_decode($response->getBody()));
+        $contactId = json_decode($response->getBody())->vid;
+        $identifier = $request->email; // either 'vid' or 'email'
+        $endpoint = "https://api.hubapi.com/contacts/v3/contact/{$identifier}/{$contactId}";
+        $mytime = Carbon::now();
+        // Updated properties
+        $data = [
+            'properties' => [
+                [
+                    'property' => 'recent_login',
+                    'value' => $mytime
+                ]
+            ]
+        ];
+        $response = $client->patch($endpoint, [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $apiKey
+            ],
+            'json' => $data
+        ]);
+
+        return $response->getStatusCode();
+
         if ($users) {
             $request->session()->put('user', $users->name);
             if ($users->is_admin == 1) {
@@ -83,6 +163,34 @@ class UserController extends Controller
         $users->phone = $request->phone;
         $users->password = $request->password;
         $users->save();
+
+        $client = new Client();
+        $endpoint = 'https://api.hubapi.com/contacts/v1/contact';
+        $apiKey = 'pat-na1-c88729b9-8866-44a5-b440-d6dfe69cc85d';
+        $data = [
+            'properties' => [
+                [
+                    'property' => 'email',
+                    'value' => $users->email
+                ],
+                [
+                    'property' => 'firstname',
+                    'value' => $users->name
+                ],
+                [
+                    'property' => 'phone',
+                    'value' => $users->phone
+                ]
+            ]
+        ];
+        
+        $response = $client->post($endpoint, [
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $apiKey
+            ],
+            'json' => $data
+        ]);
 
         if ($users) {
 
