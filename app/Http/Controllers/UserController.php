@@ -32,7 +32,7 @@ class UserController extends Controller
 
         
         /*$client = new Client();
-        $apiKey = 'pat-na1-c88729b9-8866-44a5-b440-d6dfe69cc85d';
+        $apiKey = 'hubspot api key';
         $endpoint = 'https://api.hubapi.com/contacts/v1/contact/email/'.$request->email.'/profile';
 
         //dd($endpoint);
